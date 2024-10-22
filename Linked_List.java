@@ -87,7 +87,7 @@ public class Linked_List {
         secondlastNode.next = null;
     }
 
-    //
+    //get size of linked list
     public int getsize() {
         return size;
     }
