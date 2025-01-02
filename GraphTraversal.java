@@ -53,6 +53,7 @@ public class GraphTraversal {
         }
     }
 
+    //O(V+E);
     public static void BFS(int v, ArrayList<Edge> graph[], int start) {
         if (v < 1 || start >= v) {
             return;
@@ -78,6 +79,7 @@ public class GraphTraversal {
         System.out.println();
     }
 
+    //O(V+E);
     public static void DFS(int v, ArrayList<Edge> graph[], int start) {
         if (v < 1 || start >= v) {
             return;
@@ -103,14 +105,30 @@ public class GraphTraversal {
         System.out.println();
     }
 
+    //O(V+E);
     public static void DFSrecursive(ArrayList<Edge> graph[], int curr, boolean vis[]) {
         System.out.print(curr + " ");
         vis[curr] = true;
         for (Edge edge : graph[curr]) {
             if (vis[edge.des] == false) {
                 DFSrecursive(graph, edge.des, vis);
-           }
+            }
         }
+    }
+
+    //O(V^V);
+    public static void printPath(ArrayList<Edge> graph[], boolean vis[], int curr, String path, int target) {
+        if (curr == target) {
+            System.out.println(path);
+            return;
+        }
+        for (Edge edge : graph[curr]) {
+            if (!vis[edge.des]) {
+                vis[curr] = true;
+                printPath(graph, vis, edge.des, path + edge.des + " ", target);
+                vis[curr] = false;
+            }
+       }
     }
     public static void main(String[] args) {
         int v = 7;
@@ -118,7 +136,7 @@ public class GraphTraversal {
         createGraph(v, graph);
         /*
              _ 1 --- 3 _
-            /        |  \
+           /         |  \
           0          |   5 --- 6
            \         | /
             2 -------4
@@ -130,5 +148,10 @@ public class GraphTraversal {
         boolean vis[] = new boolean[v];
         DFSrecursive(graph, 0, vis);
         System.out.println();
+        for (int i = 0; i < v; i++) {
+            vis[i] = false;
+        }
+        System.out.println("Paths from 0 to 5:");
+        printPath(graph, vis, 0, "0 ", 5);
     }
 }
